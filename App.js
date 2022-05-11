@@ -23,30 +23,32 @@ import {
   useColorScheme,
 } from 'react-native';
 
-import BottomTab from './routes/BottomTab';
+import MoviesList from './components/MoviesList'
 import type {Node} from 'react';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import BottomTab from './routes/BottomTab';
 const App=()=> {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: 'isDarkMode ? Colors.darker : Colors.lighter',
   };
 
   return (
-    <SafeAreaProvider>
-    <View style={backgroundStyle}>
+    <SafeAreaView style={[styles.container,backgroundStyle]}>
+    <View style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <BottomTab />
     </View>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  
+  container:{
+    flex:1,
+  }
 });
 
 export default App;
