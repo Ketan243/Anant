@@ -1,44 +1,28 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 
-import ViewDetails from '../components/ViewDetails';
+import Home from '../components/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MovieRatings from '../components/MovieRatings';
-import MoviesList from '../components/MoviesList';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import ProductDetails from '../components/ProductDetails';
+import Profile from '../components/Profile';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function BottomTabs() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="movie">
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="movie"
-          component={TabBar}
-        />
-        <Stack.Screen
-          options={{  
-            headerStyle: {
-              backgroundColor: '#764AF1'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            headerTitleAlign: 'center',
-            headerTitle: 'Movie Details',
-          }}
-          name="ViewDetails"
-          component={ViewDetails}
-        />
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Home" component={TabBar} />
+        <Stack.Screen name="Details" component={ProductDetails} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -50,47 +34,58 @@ export default function BottomTabs() {
 const TabBar = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          switch (route.name) {
-            case 'movie':
-              iconName = 'ios-camera';
-              break;
-            case 'rating':
-              iconName = 'ios-star';
-              break;
-    
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'ios-home'
+                : 'ios-home-outline';
+            }
+            else if(route.name==="Info"){
+              iconName = focused ? 'ios-notifications' : 'ios-notifications-outline';
+            }
+            else if (route.name === 'Settings') {
+              iconName = focused ? 'ios-cart' : 'ios-cart-outline';
+            }
+            else if(route.name==="Add"){
+              iconName = focused ? 'ios-add' : 'ios-add-outline';
+              color = "white";
+            }
+            else if(route.name==="User"){
+              iconName = focused ? 'ios-person' : 'ios-person-outline';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={20} color={color} />;
+          },
+          tabBarActiveTintColor: '#6495ED',
+          tabBarInactiveTintColor: 'gray',
+          tabBarShowLabel: false,
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Info" component={Home} options={
+          {
+            tabBarBadge: '2',
           }
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={28} color={focused?'blue':'red'} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: '#fff',
-        inactiveTintColor: 'lightgray',
-        activeBackgroundColor: '#764AF1',
-        inactiveBackgroundColor: '#764AF1',
-        style: {
-          backgroundColor: '#764AF1',
-          paddingBottom: 3,
-        },
-      }}
-      initialRouteName="movie">
-      <Tab.Screen
+        } />
+        <Tab.Screen name="Add" component={Home}
         options={{
-          headerShown: false,
+          tabBarItemStyle: {
+            height: 35,
+            backgroundColor: '#6495ED',
+            borderColor: 'white',
+            borderWidth: 1,
+            borderRadius: 10,
+            margin: 5,
+          },
         }}
-        name={'movie'}
-        component={MoviesList}
-      />
-      <Tab.Screen
-        options={{
-          headerShown: false,
-        }}
-        name={'ratings'}
-        component={MovieRatings}
-      />
-    </Tab.Navigator>
+        />
+        <Tab.Screen name="Settings" component={Home} />
+        <Tab.Screen name="User" component={Profile} />
+      </Tab.Navigator>
   );
 };

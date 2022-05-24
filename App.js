@@ -7,13 +7,6 @@
  */
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -23,11 +16,10 @@ import {
   useColorScheme,
 } from 'react-native';
 
-import MoviesList from './components/MoviesList'
+import BottomTab from './routes/BottomTab';
 import type {Node} from 'react';
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import BottomTab from './routes/BottomTab';
+
 const App=()=> {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -36,7 +28,7 @@ const App=()=> {
   };
 
   return (
-    <SafeAreaView style={[styles.container,backgroundStyle]}>
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <BottomTab />
@@ -48,6 +40,7 @@ const App=()=> {
 const styles = StyleSheet.create({
   container:{
     flex:1,
+    backgroundColor:'#fff',
   }
 });
 
